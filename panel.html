@@ -40,9 +40,30 @@
   <button onclick="dial('2029')">Finance</button>
   <button onclick="dial('2622')">I.T.</button>
 
+  <script src="https://webapps.cisco.com/WebexDevices/jsapi/v1"></script>
   <script>
+    let xapi;
+
+    window.onload = () => {
+      if (window.webex) {
+        webex
+          .onReady()
+          .then(() => webex.require('xapi'))
+          .then((x) => {
+            xapi = x;
+            console.log('xAPI ready');
+          })
+          .catch((err) => {
+            console.error('xAPI not available:', err);
+            alert('xAPI not available');
+          });
+      } else {
+        alert('xAPI not available');
+      }
+    };
+
     function dial(number) {
-      if (typeof xapi !== 'undefined') {
+      if (xapi) {
         xapi.command('Dial', { Number: number });
       } else {
         alert('xAPI not available');
