@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Town of Taos Directory</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: center;
+      height: 100vh;
+    }
+    button {
+      font-size: 1.5em;
+      padding: 1em;
+      margin: 0;
+      border: none;
+      border-bottom: 1px solid #ccc;
+      background: #005073;
+      color: white;
+      width: 100%;
+      flex-grow: 1;
+    }
+    button:hover {
+      background: #007499;
+    }
+  </style>
+</head>
+<body>
+  <button onclick="dial('5849')">Marketing & Tourism</button>
+  <button onclick="dial('2002')">Executive Office</button>
+  <button onclick="dial('2009')">Human Resources</button>
+  <button onclick="dial('2004')">Town Clerk</button>
+  <button onclick="dial('2016')">Planning & Zoning</button>
+  <button onclick="dial('2029')">Finance</button>
+  <button onclick="dial('2622')">I.T.</button>
+
+  <script>
+    function dial(number) {
+      if (typeof xapi !== 'undefined') {
+        xapi.command('Dial', { Number: number });
+      } else {
+        alert('xAPI not available');
+      }
+    }
+  </script>
+</body>
+</html>
