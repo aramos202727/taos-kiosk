@@ -1,43 +1,74 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>WebSocket xAPI Test</title>
+  <meta charset="UTF-8">
+  <title>Town of Taos Directory</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body {
+      margin: 0;
+      font-family: sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      justify-content: center;
+      height: 100vh;
+    }
+    button {
+      font-size: 1.5em;
+      padding: 1em;
+      margin: 0;
+      border: none;
+      border-bottom: 1px solid #ccc;
+      background: #005073;
+      color: white;
+      width: 100%;
+      flex-grow: 1;
+    }
+    button:hover {
+      background: #007499;
+    }
+  </style>
 </head>
 <body>
-  <h2>Dial Test</h2>
-  <button onclick="dial('5849')">Call Marketing</button>
-  <button onclick="dial('2002')">Call Executive</button>
+  <button onclick="dial('5849')">Marketing & Tourism</button>
+  <button onclick="dial('2002')">Executive Office</button>
+  <button onclick="dial('2009')">Human Resources</button>
+  <button onclick="dial('2004')">Town Clerk</button>
+  <button onclick="dial('2016')">Planning & Zoning</button>
+  <button onclick="dial('2029')">Finance</button>
+  <button onclick="dial('2622')">I.T.</button>
 
+  <script src="https://webapps.cisco.com/WebexDevices/jsapi/v1"></script>
   <script>
-    const socketUrl = "wss://10.250.0.100/ws"; // Replace if needed
-    let ws;
+    let xapi;
 
-    function connect() {
-      ws = new WebSocket(socketUrl);
-
-      ws.onopen = () => console.log("✅ WebSocket connected");
-      ws.onerror = (e) => console.error("❌ WebSocket error:", e);
-      ws.onclose = () => console.warn("⚠️ WebSocket closed");
-
-      ws.onmessage = (msg) => console.log("📥 Received:", msg.data);
-    }
+    window.onload = () => {
+      if (window.webex) {
+        webex
+          .onReady()
+          .then(() => webex.require('xapi'))
+          .then((x) => {
+            xapi = x;
+            console.log('xAPI ready');
+          })
+          .catch((err) => {
+            console.error('xAPI not available:', err);
+            alert('xAPI failed: ' + (err.message || err));
+          });
+      } else {
+        alert('xAPI not available');
+      }
+    };
 
     function dial(number) {
-      if (ws.readyState !== WebSocket.OPEN) {
-        alert("WebSocket not connected");
-        return;
+      if (xapi) {
+        xapi.command('Dial', { Number: number });
+      } else {
+        alert('xAPI not available');
       }
-
-      const payload = {
-        method: "xCommand Dial",
-        params: { Number: number }
-      };
-
-      ws.send(JSON.stringify(payload));
-      console.log("📤 Sent:", payload);
     }
-
-    connect();
   </script>
 </body>
 </html>
