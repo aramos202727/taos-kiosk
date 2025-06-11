@@ -1,74 +1,52 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>Town of Taos Directory</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Taos Kiosk</title>
   <style>
     body {
-      margin: 0;
       font-family: sans-serif;
-      background: #f4f4f4;
+      background-color: #001f3f;
+      color: white;
       display: flex;
       flex-direction: column;
-      align-items: stretch;
       justify-content: center;
+      align-items: center;
       height: 100vh;
-    }
-    button {
-      font-size: 1.5em;
-      padding: 1em;
       margin: 0;
-      border: none;
-      border-bottom: 1px solid #ccc;
-      background: #005073;
-      color: white;
-      width: 100%;
-      flex-grow: 1;
     }
+
+    button {
+      width: 80%;
+      padding: 20px;
+      font-size: 20px;
+      margin: 10px;
+      border: none;
+      border-radius: 10px;
+      background-color: #0074D9;
+      color: white;
+      cursor: pointer;
+    }
+
     button:hover {
-      background: #007499;
+      background-color: #005fa3;
     }
   </style>
 </head>
 <body>
-  <button onclick="dial('5849')">Marketing & Tourism</button>
-  <button onclick="dial('2002')">Executive Office</button>
-  <button onclick="dial('2009')">Human Resources</button>
-  <button onclick="dial('2004')">Town Clerk</button>
-  <button onclick="dial('2016')">Planning & Zoning</button>
-  <button onclick="dial('2029')">Finance</button>
-  <button onclick="dial('2622')">I.T.</button>
+  <button id="callMarketing">Marketing & Tourism</button>
+  <button id="callExecutive">Executive Office</button>
+  <button id="callHR">Human Resources</button>
+  <button id="callPlanning">Planning & Zoning</button>
+  <button id="callFinance">Finance</button>
+  <button id="callIT">I.T.</button>
 
-  <script src="https://webapps.cisco.com/WebexDevices/jsapi/v1"></script>
   <script>
-    let xapi;
-
-    window.onload = () => {
-      if (window.webex) {
-        webex
-          .onReady()
-          .then(() => webex.require('xapi'))
-          .then((x) => {
-            xapi = x;
-            console.log('xAPI ready');
-          })
-          .catch((err) => {
-            console.error('xAPI not available:', err);
-            alert('xAPI failed: ' + (err.message || err));
-          });
-      } else {
-        alert('xAPI not available');
-      }
-    };
-
-    function dial(number) {
-      if (xapi) {
-        xapi.command('Dial', { Number: number });
-      } else {
-        alert('xAPI not available');
-      }
-    }
+    const buttons = document.querySelectorAll('button');
+    buttons.forEach(button => {
+      button.addEventListener('click', () => {
+        alert(`xAPI not available`);
+      });
+    });
   </script>
 </body>
 </html>
